@@ -2,7 +2,8 @@ const Password = require('../dataBase/Password')
 const Currency = require('../dataBase/Currency')
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken')
-const {secret} = require('../config/config')
+
+const secret = process.env.NODE_APP_SECRET;
 
 const generateAccessToken = (id) => {
     const payload = {
@@ -58,7 +59,8 @@ async function deleteCurrency(req, res) {
 async function updateCurrency(req, res) {
     try {
         const currencyToUpdate = req.body;
-        const currency = await Currency.findOneAndUpdate({shortname: currencyToUpdate.shortname}, currencyToUpdate);
+        const {currencyId} = req.params;
+        const currency = await Currency.findOneAndUpdate({_id: currencyId}, currencyToUpdate);
         if (!currency)
             res.status(400).json("Incorrect currency data");
         return res.status(200).json("Currency updated");
