@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
-const {secret} = require('../config/config')
+
+const secret = process.env.NODE_APP_SECRET;
 
 module.exports = function (req, res, next) {
     if (req.method === 'OPTIONS')
